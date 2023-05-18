@@ -25,7 +25,10 @@ abstract class Character implements Body {
     this._luck = token.nextInt(100);
   }
 
-  getHit(int damage) {}
-
   attack() {}
+
+  getHit(int damage, int token) {
+    var part = this.selectPart(token);
+    return part?.asMap();
+  }
 }

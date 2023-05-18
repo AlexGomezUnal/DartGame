@@ -1,28 +1,37 @@
-class Arm {
+class Arm implements Iterable {
   int shoulder = 100;
   int elbow = 100;
   int foreArm = 100;
   int upperArm = 100;
   int wrist = 100;
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
-class Leg {
+class Leg implements Iterable {
   int knee = 100;
   int ankle = 100;
   int thigh = 100;
   int shank = 100;
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
-class Hand {
+class Hand implements Iterable {
   int thumb = 100;
   int index = 100;
   int middle = 100;
   int ring = 100;
   int little = 100;
   int palm = 100;
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
-class Feet {
+class Feet implements Iterable {
   int big = 100;
   int index = 100;
   int middle = 100;
@@ -30,17 +39,23 @@ class Feet {
   int little = 100;
   int arch = 100;
   int heel = 100;
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
-class Torso {
+class Torso implements Iterable {
   int lungs = 100;
   int ribs = 100;
   int heart = 100;
   int stomatch = 100;
   int breast = 100;
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
-class Head {
+class Head implements Iterable {
   int leftEye = 100;
   int rightEye = 100;
   int nose = 100;
@@ -49,6 +64,9 @@ class Head {
   int lips = 100;
   int tonge = 100;
   int teeth = 100;
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
 class Body implements Head, Arm, Leg, Torso, Hand, Feet {
@@ -66,47 +84,36 @@ class Body implements Head, Arm, Leg, Torso, Hand, Feet {
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 
-  selectBodyPart(int num) {
-    if (num == 0) {
-      return false;
-    }
-    if (num >= 1 && num <= 3) {
-      return this._head;
-    }
-    if (num >= 3 && num <= 7) {
-      return this._torso;
-    }
-    if (num >= 7 && num <= 8) {
-      return this._leftArm;
-    }
-    if (num >= 8 && num <= 9) {
-      return this._rightArm;
-    }
-    if (num >= 10 && num <= 11) {
-      return this._leftLeg;
-    }
-    if (num >= 12 && num <= 13) {
-      return this._rightLeg;
-    }
-    if (num >= 14 && num <= 15) {
-      return this._leftHand;
-    }
-    if (num >= 16 && num <= 17) {
-      return this._rightHand;
-    }
-    if (num >= 18 && num <= 19) {
-      return this._leftFeet;
-    }
-    if (num >= 19 && num <= 20) {
-      return this._rightFeet;
+  Body() {}
+  List<dynamic>? selectPart(int token1) {
+    switch (token1) {
+      case 1:
+        return this._head.toList();
+      case 2:
+        return this._leftArm.toList();
+      case 3:
+        return this._rightArm.toList();
+      case 5:
+        return this._leftHand.toList();
+      case 6:
+        return this._rightHand.toList();
+      case 7:
+        return this._torso.toList();
+      case 8:
+        return this._leftLeg.toList();
+      case 9:
+        return this._rightLeg.toList();
+      case 10:
+        return this._leftFeet.toList();
+      case 11:
+        return this._rightFeet.toList();
     }
   }
 
   getHit(int damage, int token) {
-    var part = selectBodyPart(token);
+    var part = selectPart(token);
+    return part?.asMap();
   }
 
-  setLive() {
-    for (var part in this._head) {}
-  }
+  setLive() {}
 }
