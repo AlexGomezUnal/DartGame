@@ -1,91 +1,101 @@
-class Arm implements Iterable<int> {
-  int shoulder = 100;
-  int elbow = 100;
-  int foreArm = 100;
-  int upperArm = 100;
-  int wrist = 100;
+import 'dart:core';
 
+class Part {
+  var _name;
+  var _live;
+  bool _death = false;
+
+  Part(String Name, int live) {
+    this._name = Name;
+    this._live = live;
+    this._death = false;
+  }
+
+  subtractLive(int damage) {
+    this._live -= damage;
+    if (this._live < 0) {
+      this._death = true;
+    }
+  }
+}
+
+class Arm implements Iterable {
+  Part shoulder = new Part("shoulder", 50);
+  Part elbow = new Part("elbow", 30);
+  Part foreArm = new Part("foreArm", 10);
+  Part upperArm = new Part("upperArm", 10);
+  Part wrist = new Part("wrist", 5);
+  //@override
+  //Iterator get iterator => [shoulder, elbow, foreArm, upperArm, wrist];
   @override
-  Iterator<int> get iterator => [shoulder, elbow, foreArm, upperArm, wrist].iterator;
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
+class Leg implements Iterable {
+  Part knee = new Part("knee", 50);
+  Part ankle = new Part("ankle", 20);
+  Part thigh = new Part("thigh", 10);
+  Part shank = new Part("shank", 10);
+  late List<Part> iterable;
+
+  Leg() {
+    iterable = [knee, ankle, thigh, shank];
+  }
 
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
-class Leg implements Iterable<int> {
-  var knee = {"knee",100};
-  int ankle = 100;
-  int thigh = 100;
-  int shank = 100;
-
-  @override
-  Iterator<dynamic> get iterator => [knee, ankle, thigh, shank].iterator;
-
-  @override
-  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
-}
-
-class Hand implements Iterable<int> {
-  int thumb = 100;
-  int index = 100;
-  int middle = 100;
-  int ring = 100;
-  int little = 100;
-  int palm = 100;
-
-  @override
-  Iterator<int> get iterator => [thumb, index, middle, ring, little, palm].iterator;
+class Hand implements Iterable {
+  Part thumb = new Part("thumb", 5);
+  Part index = new Part("index", 5);
+  Part middle = new Part("middle", 5);
+  Part ring = new Part("ring", 5);
+  Part pinky = new Part("pinky", 5);
+  Part palm = new Part("palm", 10);
 
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
-class Feet implements Iterable<int> {
-  int big = 100;
-  int index = 100;
-  int middle = 100;
-  int ring = 100;
-  int little = 100;
-  int arch = 100;
-  int heel = 100;
-
-  @override
-  Iterator<int> get iterator => [big, index, middle, ring, little, arch, heel].iterator;
+class Feet implements Iterable {
+  Part big = new Part("big", 5);
+  Part index = new Part("index", 5);
+  Part middle = new Part("middle", 5);
+  Part ring = new Part("ring", 5);
+  Part pinky = new Part("pinky", 5);
+  Part arch = new Part("arch", 10);
+  Part heel = new Part("heel", 10);
 
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
-class Torso implements Iterable<int> {
-  int lungs = 100;
-  int ribs = 100;
-  int heart = 100;
-  int stomach = 100;
-  int breast = 100;
-
-  @override
-  Iterator<int> get iterator => [lungs, ribs, heart, stomach, breast].iterator;
+class Torso implements Iterable {
+  Part lungs = new Part("lungs", 60);
+  Part ribs = new Part("lungs", 40);
+  Part heart = new Part("heart", 100);
+  Part stomatch = new Part("stomatch", 50);
+  Part breast = new Part("breast", 15);
 
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
-class Head implements Iterable<int> {
-  int leftEye = 100;
-  int rightEye = 100;
-  int nose = 100;
-  int forehead = 100;
-  int chin = 100;
-  int lips = 100;
-  int tongue = 100;
-  int teeth = 100;
-
-  @override
-  Iterator<int> get iterator => [leftEye, rightEye, nose, forehead, chin, lips, tongue, teeth].iterator;
+class Head implements Iterable {
+  Part leftEye = new Part("left eye", 50);
+  Part rightEye = new Part("right eye", 50);
+  Part nose = new Part("nose", 20);
+  Part forehead = new Part("forehead", 15);
+  Part chin = new Part("chin", 15);
+  Part lips = new Part("lips", 5);
+  Part tonge = new Part("tonge", 30);
+  Part teeth = new Part("teeth", 60);
 
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
+
 class Body implements Head, Arm, Leg, Torso, Hand, Feet {
   Head _head = Head();
   Torso _torso = Torso();
@@ -101,12 +111,11 @@ class Body implements Head, Arm, Leg, Torso, Hand, Feet {
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 
-  
   Map<String, int> ToMap(dynamic part, int index) {
     var partMap = <String, int>{};
     for (var entry in part) {
       var partName = getPartName(index).iterator;
-      while(partName.moveNext()){
+      while (partName.moveNext()) {
         print(partName.current.toString());
         partMap[partName.toString()] = entry;
       }
@@ -131,14 +140,13 @@ class Body implements Head, Arm, Leg, Torso, Hand, Feet {
       case 6:
         return _leftLeg;
       case 7:
-        return _rightLeg;
+        return this.ToMap(_rightLeg, 0);
       case 8:
         return _leftFeet;
       case 9:
         return _rightFeet;
+    }
   }
-
- }
 
   getHit(int damage, int token) {
     var part = getPartName(token);
