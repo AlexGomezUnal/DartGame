@@ -140,7 +140,7 @@ class Body implements Head, Arm, Leg, Torso, Hand, Feet {
       case 6:
         return _leftLeg;
       case 7:
-        return this.ToMap(_rightLeg, 0);
+        return this.ToMap(_rightLeg, 1);
       case 8:
         return _leftFeet;
       case 9:
