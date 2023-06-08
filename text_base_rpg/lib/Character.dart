@@ -12,7 +12,7 @@ abstract class Character implements Body {
   late int _stealth;
   late int _physicalForce = token.nextInt(100);
   late int _mentalForce;
-  late Body body;
+  late Body _body = new Body();
   late String _name;
 
   changeName(String Name) {
@@ -26,7 +26,6 @@ abstract class Character implements Body {
   attack() {}
 
   getHit(int damage, int token) {
-    var part = this.selectPart(token);
-    return part?.asMap();
+    var part = this._body.getHit(damage, token);
   }
 }
